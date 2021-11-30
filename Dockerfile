@@ -1,6 +1,5 @@
 FROM ufoym/deepo:pytorch-py36-cu100
 
-
 RUN apt update && \
 	apt install -y zip \
 	htop screen \
@@ -68,7 +67,11 @@ RUN pip install -U absl-py==0.14.1 \
 	zipp==3.6.0
 RUN apt install -y libsm6 && \
 	apt-get clean
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+	unzip awscliv2.zip && \
+	./aws/install
 ADD app/ /app/
+RUN aws s3 cp s3://gln-inference-models/p6.pt /app/
 WORKDIR /app/
 ENTRYPOINT ["python", "detect.py"]
 CMD ["--source", "rtsp://0.0.0.0:8554/live.stream", "--cfg", "cfg/p6.cfg", "--weights", "p6.pt", "--conf", "0.25", "--img-size", "1920", "--device", "0"]
