@@ -3,6 +3,7 @@ env:
   variables:
     REPOSITORY_URI: "932200675199.dkr.ecr.ca-central-1.amazonaws.com"
     IMAGE_NAME: "inference_container"
+    AWS_DEFAULT_REGION: ca-central-1
 
 phases:
   install:
