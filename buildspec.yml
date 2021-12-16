@@ -18,6 +18,9 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo "Pulling components for build"
+      - mkdir ./app
+      - aws s3 cp s3://gln-inference-models/p6.pt ./app/
       - echo "Building image"
       - echo "Pulling Images for cached version in ECR"
       - docker pull $REPOSITORY_URI/$IMAGE_NAME:latest || true
