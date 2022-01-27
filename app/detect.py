@@ -21,6 +21,8 @@ from models.models import *
 from utils.datasets import *
 from utils.general import *
 
+import json
+
 def load_classes(path):
     # Loads *.names file at 'path'
     with open(path, 'r') as f:
@@ -138,8 +140,9 @@ def detect(save_img=False):
                     output_dict['det'].append(xywh)
 
 
-            # Send output_dict to stdout for external Grassland modules
-            print(output_dict)
+            # Serialize output_dict to json and send to stdout for external Grassland modules
+            json_output_dict = json.dumps(output_dict) 
+            print(json_output_dict)
 
             if show_inference_speed:
                 # Print time (inference + NMS)
