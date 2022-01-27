@@ -28,8 +28,8 @@ def load_classes(path):
     return list(filter(None, names))  # filter removes empty strings (such as last line)
 
 def detect(save_img=False):
-    out, source, weights, view_img, save_txt, imgsz, cfg, names = \
-        opt.output, opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, opt.cfg, opt.names
+    out, source, weights, view_img, save_txt, imgsz, cfg, names, show_inference_speed = \
+        opt.output, opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, opt.cfg, opt.names, opt.show_inference_speed
     webcam = source == '0' or source.startswith('rtsp') or source.startswith('http') or source.endswith('.txt')
 
     # Initialize
@@ -101,6 +101,13 @@ def detect(save_img=False):
             else:
                 p, s, im0 = path, '', im0s
 
+
+            # output_dict for information sent to external Grassland modules
+            output_dict = {}
+            # Create placeholder list in output_dict for detections
+            output_dict['det'] = []
+
+            
             save_path = str(Path(out) / Path(p).name)
             txt_path = str(Path(out) / Path(p).stem) + ('_%g' % dataset.frame if dataset.mode == 'video' else '')
             s += '%gx%g ' % img.shape[2:]  # print string
@@ -109,6 +116,7 @@ def detect(save_img=False):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
 
+                
                 # Print results
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
@@ -125,8 +133,18 @@ def detect(save_img=False):
                         label = '%s %.2f' % (names[int(cls)], conf)
                         plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
 
-            # Print time (inference + NMS)
-            print('%sDone. (%.3fs)' % (s, t2 - t1))
+
+                    xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
+                    output_dict['det'].append(xywh)
+
+
+            # Send output_dict to stdout for external Grassland modules
+            print(output_dict)
+
+            if show_inference_speed:
+                # Print time (inference + NMS)
+                print('%sDone. (%.3fs)' % (s, t2 - t1))
+                
 
             # Stream results
             if view_img:
@@ -156,7 +174,9 @@ def detect(save_img=False):
         if platform == 'darwin' and not opt.update:  # MacOS
             os.system('open ' + save_path)
 
-    print('Done. (%.3fs)' % (time.time() - t0))
+            
+    if show_inference_speed:
+        print('Done. (%.3fs)' % (time.time() - t0))
 
 
 if __name__ == '__main__':
@@ -176,6 +196,8 @@ if __name__ == '__main__':
     parser.add_argument('--update', action='store_true', help='update all models')
     parser.add_argument('--cfg', type=str, default='cfg/p6.cfg', help='*.cfg path')
     parser.add_argument('--names', type=str, default='data/coco.names', help='*.cfg path')
+    parser.add_argument('--show-inference-speed', action='store_true', help='Print the inference speed to stdout. May cause problems with external modules reading stdout')
+    
     opt = parser.parse_args()
     print(opt)
 
