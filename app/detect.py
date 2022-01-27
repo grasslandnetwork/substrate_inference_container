@@ -199,7 +199,6 @@ if __name__ == '__main__':
     parser.add_argument('--show-inference-speed', action='store_true', help='Print the inference speed to stdout. May cause problems with external modules reading stdout')
     
     opt = parser.parse_args()
-    print(opt)
 
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
