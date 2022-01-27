@@ -71,7 +71,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 	unzip awscliv2.zip && \
 	./aws/install
 ADD app/ /app/
-RUN aws s3 cp s3://gln-inference-models/p6.pt /app/
+#RUN aws s3 cp s3://gln-inference-models/p6.pt /app/
 WORKDIR /app/
 ENTRYPOINT ["python", "detect.py"]
 CMD ["--source", "rtsp://0.0.0.0:8554/live.stream", "--cfg", "cfg/p6.cfg", "--weights", "p6.pt", "--conf", "0.25", "--img-size", "1920", "--device", "0"]
