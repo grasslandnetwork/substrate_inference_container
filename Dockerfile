@@ -64,7 +64,8 @@ RUN pip install -U absl-py==0.14.1 \
 	urllib3==1.26.7 \
 	Werkzeug==2.0.1 \
 	wheel==0.33.4 \
-	zipp==3.6.0
+	zipp==3.6.0 \
+	substrate-interface==1.1.3
 RUN apt install -y libsm6 && \
 	apt-get clean
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
