@@ -23,6 +23,8 @@ from utils.general import *
 
 import json
 
+import rpc
+
 def load_classes(path):
     # Loads *.names file at 'path'
     with open(path, 'r') as f:
@@ -140,10 +142,6 @@ def detect(save_img=False):
                     output_dict['det'].append(xywh)
 
 
-            # Serialize output_dict to json and send to stdout for external Grassland modules
-            json_output_dict = json.dumps(output_dict) 
-            print(json_output_dict)
-
             if show_inference_speed:
                 # Print time (inference + NMS)
                 print('%sDone. (%.3fs)' % (s, t2 - t1))
@@ -171,6 +169,15 @@ def detect(save_img=False):
                         h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
                         vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*fourcc), fps, (w, h))
                     vid_writer.write(im0)
+
+
+            # Serialize output to json and send to Grassland client
+            observation_json = json.dumps(output_dict['det'])
+            prediction_json = json.dumps(output_dict['det'])
+            # For now, observation and prediction have the same values...
+            # We'll change this later
+            rpc.call_extrinsic_add_wavefunction(observation_json, prediction_json) 
+            
 
     if save_txt or save_img:
         print('Results saved to %s' % Path(out))
