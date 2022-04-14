@@ -23,7 +23,7 @@ from utils.general import *
 
 import json
 
-import rpc
+import nodewebsocket
 
 def load_classes(path):
     # Loads *.names file at 'path'
@@ -176,7 +176,7 @@ def detect(save_img=False):
             prediction_json = json.dumps(output_dict['det'])
             # For now, observation and prediction have the same values...
             # We'll change this later
-            rpc.call_extrinsic_add_wavefunction(observation_json, prediction_json) 
+            nodewebsocket.call_extrinsic_add_wavefunction(observation_json, prediction_json) 
             
 
     if save_txt or save_img:
