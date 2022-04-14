@@ -25,3 +25,6 @@ The default RTSP URL that it reads from is "rtsp://0.0.0.0:8554/live.stream". Ch
 --source [YOUR RTSP URL]
 ```
 
+## RTSP server and proxy
+
+If you need an RTSP server, the rtsp-simple-server is very good. It's maintained [here](https://github.com/aler9/rtsp-simple-server).
