@@ -7,14 +7,8 @@ substrate = SubstrateInterface(
     ss58_format=42,
     type_registry_preset='substrate-node-template'
 )
+
 keypair = Keypair.create_from_uri('//Alice')
-
-
-substrate = SubstrateInterface(
-    url="ws://127.0.0.1:9944",
-    ss58_format=42,
-    type_registry_preset='substrate-node-template'
-)
 
 
 def call_extrinsic_add_wavefunction(observation, prediction):
