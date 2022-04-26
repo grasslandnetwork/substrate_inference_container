@@ -8,16 +8,16 @@ substrate = SubstrateInterface(
     type_registry_preset='substrate-node-template'
 )
 
+
 keypair = Keypair.create_from_uri('//Alice')
 
 
-def call_extrinsic_add_wavefunction(observation, prediction):
+def call_extrinsic_add_wavefunction(wavefunction_json_s):
     call = substrate.compose_call(
         call_module='Wavefunction',
         call_function='add_wavefunction',
         call_params={
-            'observation': observation,
-            'prediction': prediction,
+            'function': wavefunction_json_s,
         }
     )
 
@@ -29,3 +29,4 @@ def call_extrinsic_add_wavefunction(observation, prediction):
 
     except SubstrateRequestException as e:
         print("Failed to send: {}".format(e))
+

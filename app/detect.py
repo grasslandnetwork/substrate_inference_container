@@ -172,11 +172,8 @@ def detect(save_img=False):
 
 
             # Serialize output to json and send to Grassland client
-            observation_json = json.dumps(output_dict['det'])
-            prediction_json = json.dumps(output_dict['det'])
-            # For now, observation and prediction have the same values...
-            # We'll change this later
-            nodewebsocket.call_extrinsic_add_wavefunction(observation_json, prediction_json) 
+            wavefunction_json_s = json.dumps(output_dict['det'])
+            nodewebsocket.call_extrinsic_add_wavefunction(wavefunction_json_s) 
             
 
     if save_txt or save_img:
