@@ -4,8 +4,17 @@
 
 cd into the repo's root directory
 
+## Download the Model to the '/app' Directory
 
 ```
+cd app
+wget https://downloads.grassland.network/models/p6.pt
+
+```
+## Return to the Root Directory and Build the Docker Image
+
+```
+cd ..
 docker build -t grassland_substrate_inference_container:0.1 .
 ```
 
