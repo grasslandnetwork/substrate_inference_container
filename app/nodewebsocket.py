@@ -3,7 +3,7 @@ from substrateinterface.exceptions import SubstrateRequestException
 
 
 substrate = SubstrateInterface(
-    url="ws://127.0.0.1:9944",
+    url="ws://127.0.0.1:9945",
     ss58_format=42,
     type_registry_preset='substrate-node-template'
 )
