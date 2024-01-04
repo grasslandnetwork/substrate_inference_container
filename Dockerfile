@@ -71,6 +71,8 @@ RUN apt install -y libsm6 && \
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
 	unzip awscliv2.zip && \
 	./aws/install
+
+RUN pip install substrate-interface==1.4.1
 ADD app/ /app/
 #RUN aws s3 cp s3://gln-inference-models/p6.pt /app/
 WORKDIR /app/
