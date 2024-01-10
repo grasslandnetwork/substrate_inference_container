@@ -1,3 +1,8 @@
+# This repo is archived. Please use [https://github.com/grasslandnetwork/inference_container](https://github.com/grasslandnetwork/inference_container) instead
+
+
+
+
 # Substrate version of the Grassland Inference Container
 
 ## Building the image
